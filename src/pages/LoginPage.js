@@ -1,9 +1,12 @@
 import React from 'react'
 import Login from '../features/auth/component/Login'
+import NavBar from '../features/navbar/NavBar'
 
 function LoginPage() {
   return (
-    <Login/>
+    <NavBar>
+      <Login/>
+    </NavBar>
   )
 }
 
