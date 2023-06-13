@@ -16,6 +16,14 @@ export function fetchCategories() {
   );
 }
 
+export function fetchProduct(id) {
+  return new Promise(async(resolve) =>
+   { const response=await fetch('http://localhost:3000/products/'+id)
+    const data =await response.json()
+    resolve({data})}
+  );
+}
+
 export function fetchBrands() {
   return new Promise(async(resolve) =>
    { const response=await fetch('http://localhost:3000/brands')
