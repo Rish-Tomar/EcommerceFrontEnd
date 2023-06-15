@@ -2,6 +2,8 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon,ShoppingCartIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectItems } from '../cart/cartSlice'
 
 const user = {
   name: 'Tom Cook',
@@ -26,6 +28,8 @@ function classNames(...classes) {
 
 
 export default function NavBar({children}) {
+
+  const itemsCount=useSelector(selectItems)
   return (
     <>
       <div className="min-h-full">
@@ -75,7 +79,7 @@ export default function NavBar({children}) {
                       </button>
                       </Link>
                       <span className="inline-flex items-center rounded-md mb-5 -ml-3 bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-                            3
+                            {itemsCount.length}
                         </span>
 
                       {/* Profile dropdown */}
@@ -165,7 +169,7 @@ export default function NavBar({children}) {
                     </button>
                     </Link>
                     <span className="inline-flex items-center rounded-md mb-5 -ml-3 bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-                        2
+                        {itemsCount.length}
                     </span>
                   </div>
                   <div className="mt-3 space-y-1 px-2">

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductAsync, selectedProduct } from '../productListSlice'
 import { fetchProduct } from '../productListAPI'
 import { useParams } from 'react-router-dom'
+import { addToCartAsync } from '../../cart/cartSlice'
+import { selectLoggedInUser } from '../../auth/authSlice'
 const colors= [
       { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
       { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
@@ -84,14 +86,22 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(colors[0])
   const [selectedSize, setSelectedSize] = useState(sizes[2])
   const product =useSelector(selectedProduct)
+  const user =useSelector(selectLoggedInUser)
   const dispatch = useDispatch()
 
   //use of react router
   const params=useParams()
+
+  const handleCartAdd=(e)=>{
+    e.preventDefault()
+    dispatch(addToCartAsync({...product,quantity:1,user:user.id}))
+  }
+  
 
   useEffect(()=>{
     console.log("Hello in product details")
@@ -296,6 +306,7 @@ export default function ProductDetails() {
               </div>
 
               <button
+              onClick={handleCartAdd}
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >

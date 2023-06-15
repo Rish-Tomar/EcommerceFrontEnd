@@ -1,23 +1,47 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchCount } from './CartAPI';
+import { addToCart,fetchItemsByUserID,updateCartItem,deleteCartItem} from './CartAPI';
 
 const initialState = {
   value: 0,
-  status: 'idle',
+  items: [],
 };
 
 
-export const incrementAsync = createAsyncThunk(
-  'counter/fetchCount',
-  async (amount) => {
-    const response = await fetchCount(amount);
+export const addToCartAsync = createAsyncThunk(
+  'cart/addToCart',
+  async (item) => {
+    const response = await addToCart(item);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
 );
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const fetchItemsByUserIDAsync = createAsyncThunk(
+  'cart/fetchItemsByUserID',
+  async (userID) => {
+    const response = await fetchItemsByUserID(userID);
+    return response.data;
+  }
+);
+
+export const updateCartItemAsync = createAsyncThunk(
+  'cart/updateCartItem',
+  async (item) => {
+    const response = await updateCartItem(item);
+    return response.data;
+  }
+);
+
+export const deleteCartItemAsync = createAsyncThunk(
+  'cart/deleteCartItem',
+  async (id) => {
+    const response = await deleteCartItem(id);
+    return response.data;
+  }
+);
+
+export const addToCartSlice = createSlice({
+  name: 'cart',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -27,21 +51,44 @@ export const counterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(incrementAsync.pending, (state) => {
+      .addCase(addToCartAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(incrementAsync.fulfilled, (state, action) => {
+      .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.value += action.payload;
-      });
+        state.items.push(action.payload);
+      })
+      .addCase(fetchItemsByUserIDAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchItemsByUserIDAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.items=action.payload;
+      })
+      .addCase(updateCartItemAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateCartItemAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        const index =state.items.findIndex(item=>item.id===action.payload.id)
+        state.items[index]=action.payload;
+      })
+      .addCase(deleteCartItemAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteCartItemAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        const index =state.items.findIndex(item=>item.id===action.payload.id)
+        state.items.splice(index,1)
+      })
+      ;
   },
 });
 
-export const { increment } = counterSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectCount = (state) => state.counter.value;
+export const selectItems = (state) => state.cart.items;
 
-export default counterSlice.reducer;
+export default addToCartSlice.reducer;
