@@ -1,5 +1,4 @@
 import React from 'react';
-import { Counter } from './features/counter/Counter';
 import './App.css';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
@@ -7,18 +6,16 @@ import SignupPage from './pages/SignupPage';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
 import CartPage from './pages/CartPage';
 import Checkout from './pages/Checkout';
-import ProductDetails from './features/productList/components/ProductDetails';
 import ProductDetailsPage from './pages/ProductDetailsPage';
+import Protected from './features/auth/component/Protected';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (<Home/>),
+    element: (<Protected><Home/></Protected>),
   },
   {
     path: "/login",
@@ -30,11 +27,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/cart",
-    element: <CartPage/>,
+    element: <Protected><CartPage/></Protected>,
   },
   {
     path: "/checkout",
-    element: <Checkout/>,
+    element: <Protected><Checkout/></Protected>,
   },
   {
     path: "/product-details/:id",
