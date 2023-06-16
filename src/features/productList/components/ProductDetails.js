@@ -99,7 +99,10 @@ export default function ProductDetails() {
 
   const handleCartAdd=(e)=>{
     e.preventDefault()
-    dispatch(addToCartAsync({...product,quantity:1,user:user.id}))
+    const newItem={...product,quantity:1,user:user.id}  //done to remove the id supplied from frontend
+    delete newItem['id']                                //let server decide the id
+    dispatch(addToCartAsync(newItem))
+    // dispatch(addToCartAsync({...product,quantity:1,user:user.id}))
   }
   
 

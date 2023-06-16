@@ -9,7 +9,7 @@ import {
   selectItems,
   updateCartItemAsync,
 } from './cartSlice';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 export default function Cart({buttonText}) {
   const [open, setOpen] = useState(true)
@@ -27,6 +27,8 @@ export default function Cart({buttonText}) {
   }
 
   return (
+    <>
+    {products.length<1 && <Navigate to ="/" replace={true}></Navigate>}
     <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">      
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
       <h2  className="text-2xl font-bold tracking-light text-grey-900"> CART</h2>
@@ -67,7 +69,7 @@ export default function Cart({buttonText}) {
                                   <div className="flex">
                                     <button
                                       type="button"
-                                      onClick={e=>handleDelete(product.id)}
+                                      onClick={e=>handleDelete(e,product.id)}
                                       className="font-medium text-indigo-600 hover:text-indigo-500"
                                     >
                                       Remove
@@ -117,5 +119,6 @@ export default function Cart({buttonText}) {
                     </div>
                   </div>
     </div>
+    </>
   );
 }
