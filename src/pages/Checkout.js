@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Cart from '../features/cart/Cart'
 import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice'
+import { createOrderAsync } from '../features/order/orderSlice'
 
 const addresses=[
     {
@@ -23,15 +26,36 @@ const addresses=[
 
 function Checkout() {
 
-    const {register,handleSubmit,formState:{errors}} = useForm()
+    const [selectedAddress,setSelectedAddress]=useState(null)
+    const [paymentMethod,setPaymentMethod]=useState('cash')
+
+    const dispatch =useDispatch()
+    const {register,reset,handleSubmit,formState:{errors}} = useForm()
+    const user =useSelector(selectLoggedInUser)
+
+    const handleAddress=(e)=>{
+        console.log(e.target.value)
+        setSelectedAddress(user.addresses[e.target.value])
+    }
+
+    const handlePayment=(e)=>{
+        console.log(e.target.value)
+        setPaymentMethod(e.target.value)
+    }
+
+    // const handleOrder=(e)=>{
+    //     const order={items,totalAmount,totalItems,user,paymentMethod,selectedAddress}
+    //     dispatch(createOrderAsync(order))
+    // }
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
             <div className='lg:col-span-3'>
             <form className='bg-white px-5' noValidate onSubmit={handleSubmit((data=>{
-                // dispatch()
+                dispatch(updateUserAsync({...user,addresses:[...user.addresses,data]}))
                     // checkUserAsync({email:data.email,password:data.password}))
+                reset()
                 console.log(data)
                 }))}
             >
@@ -166,13 +190,15 @@ function Checkout() {
                         choose from existing address
                     </p>
                     <ul role="list" className="divide-y divide-gray-100">
-                        {addresses.map((address) => (
-                            <li key={address.email} className="flex justify-between gap-x-6 py-5">
+                        {user.addresses.map((address,index) => (
+                            <li key={index} className="flex justify-between gap-x-6 py-5">
                             <div className="flex gap-x-4">
                                 <input
                                 id="card"
-                                name="payments"
+                                name="address"
                                 type="radio"
+                                value={index}
+                                onChange={(e)=>handleAddress(e)}
                                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                 />
                                 {/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={address.imageUrl} alt="" /> */}
@@ -201,6 +227,9 @@ function Checkout() {
                             id="cash"
                             name="payments"
                             type="radio"
+                            onChange={(e)=>handlePayment(e)}
+                            checked={paymentMethod==='cash'}
+                            value="cash"
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                             />
                             <label htmlFor="cash" className="block text-sm font-medium leading-6 text-gray-900">
@@ -212,6 +241,9 @@ function Checkout() {
                             id="card"
                             name="payments"
                             type="radio"
+                            value="card"
+                            checked={paymentMethod==='card'}
+                            onChange={(e)=>handlePayment(e)}
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                             />
                             <label htmlFor="card" className="block text-sm font-medium leading-6 text-gray-900">
@@ -226,7 +258,7 @@ function Checkout() {
             </form>
             </div>
             <div className='lg:col-span-2'>
-                <Cart buttonText={'Pay Now'}/>
+                <Cart buttonText={'Pay Now'} selectedAddress={selectedAddress} paymentMethod={paymentMethod}/>
             </div>
     </div>
   </div>

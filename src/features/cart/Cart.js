@@ -10,11 +10,40 @@ import {
   updateCartItemAsync,
 } from './cartSlice';
 import { Link, Navigate } from 'react-router-dom';
+import { createOrderAsync } from '../order/orderSlice';
+import { selectLoggedInUser } from '../auth/authSlice';
 
-export default function Cart({buttonText}) {
+
+function checkoutButton(buttonText,handleOrder){
+  if(buttonText==='Pay Now')
+  {
+   return(
+    <div
+    onClick={(e)=>handleOrder(e)}
+    className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+  >
+    {buttonText}
+  </div>
+   )
+
+  }
+  else{
+    return(
+      <Link to="/checkout"
+        onClick={handleOrder}
+        className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+      >
+        {buttonText}
+      </Link>
+    )
+  }
+}
+
+export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
   const [open, setOpen] = useState(true)
   const dispatch = useDispatch();
   const products =useSelector(selectItems)
+  const user =useSelector(selectLoggedInUser)
 
   const totalAmount = products.reduce((amount,item)=>item.price*item.quantity+amount,0)
   const totalItems  = products.reduce((total,item)=>item.quantity+total,0)
@@ -25,6 +54,16 @@ export default function Cart({buttonText}) {
   const handleDelete=(e,id)=>{
     dispatch(deleteCartItemAsync(id))
   }
+
+  const handleOrder=(e)=>{
+    const order={products,totalAmount,totalItems,user,paymentMethod,selectedAddress}
+    dispatch(createOrderAsync(order))
+    console.log("order Created")
+
+    // to clear cart
+    // redirect to other page(order success page)
+    // on server change the stock values
+}
 
   return (
     <>
@@ -95,12 +134,7 @@ export default function Cart({buttonText}) {
                     </div>
                     <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div className="mt-6">
-                      <Link to="/checkout"
-                        href="#"
-                        className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                      >
-                        {buttonText}
-                      </Link>
+                      {checkoutButton(buttonText,handleOrder)}
                     </div>
                     <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
