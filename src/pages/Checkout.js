@@ -3,7 +3,8 @@ import Cart from '../features/cart/Cart'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice'
-import { createOrderAsync } from '../features/order/orderSlice'
+import { createOrderAsync, selectOrderStatus } from '../features/order/orderSlice'
+import { Navigate } from 'react-router-dom'
 
 const addresses=[
     {
@@ -32,6 +33,7 @@ function Checkout() {
     const dispatch =useDispatch()
     const {register,reset,handleSubmit,formState:{errors}} = useForm()
     const user =useSelector(selectLoggedInUser)
+    const orderPlaced = useSelector(selectOrderStatus)
 
     const handleAddress=(e)=>{
         console.log(e.target.value)
@@ -43,13 +45,9 @@ function Checkout() {
         setPaymentMethod(e.target.value)
     }
 
-    // const handleOrder=(e)=>{
-    //     const order={items,totalAmount,totalItems,user,paymentMethod,selectedAddress}
-    //     dispatch(createOrderAsync(order))
-    // }
-
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {orderPlaced && <Navigate to={`/order-success/${orderPlaced.id}`} replace={true}/>}
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
             <div className='lg:col-span-3'>
             <form className='bg-white px-5' noValidate onSubmit={handleSubmit((data=>{

@@ -10,7 +10,7 @@ import {
   updateCartItemAsync,
 } from './cartSlice';
 import { Link, Navigate } from 'react-router-dom';
-import { createOrderAsync } from '../order/orderSlice';
+import { createOrderAsync, selectOrderStatus } from '../order/orderSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 
 
@@ -22,7 +22,7 @@ function checkoutButton(buttonText,handleOrder){
     onClick={(e)=>handleOrder(e)}
     className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
   >
-    {buttonText}
+  {buttonText}
   </div>
    )
 
@@ -30,7 +30,6 @@ function checkoutButton(buttonText,handleOrder){
   else{
     return(
       <Link to="/checkout"
-        onClick={handleOrder}
         className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
       >
         {buttonText}
@@ -44,7 +43,6 @@ export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
   const dispatch = useDispatch();
   const products =useSelector(selectItems)
   const user =useSelector(selectLoggedInUser)
-
   const totalAmount = products.reduce((amount,item)=>item.price*item.quantity+amount,0)
   const totalItems  = products.reduce((total,item)=>item.quantity+total,0)
 
@@ -56,7 +54,9 @@ export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
   }
 
   const handleOrder=(e)=>{
-    const order={products,totalAmount,totalItems,user,paymentMethod,selectedAddress}
+    const order={products,totalAmount,totalItems,user,paymentMethod,selectedAddress,
+                 orderStatus:'pending' //can be changed to ordered  delivered etc
+                }
     dispatch(createOrderAsync(order))
     console.log("order Created")
 
@@ -68,6 +68,7 @@ export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
   return (
     <>
     {products.length<1 && <Navigate to ="/" replace={true}></Navigate>}
+    {}
     <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">      
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
       <h2  className="text-2xl font-bold tracking-light text-grey-900"> CART</h2>

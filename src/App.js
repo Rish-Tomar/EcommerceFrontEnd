@@ -14,6 +14,8 @@ import Protected from './features/auth/component/Protected';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItemsByUserIDAsync } from './features/cart/cartSlice';
 import { selectLoggedInUser } from './features/auth/authSlice';
+import NotFound404 from './pages/NotFound404';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
     path: "/product-details/:id",
     element: <ProductDetailsPage/>,
   },
+  {
+    path: "/order-success/:id",
+    element: <OrderSuccessPage/>,
+  },
+  {
+    path: "*",
+    element: <NotFound404/>,
+  },
 ]);
 
 
@@ -54,9 +64,6 @@ function App() {
   },[dispatch,user])
   return (
     <div className="App">
-      {/* <Home/> */}
-      {/* <LoginPage/> */}
-      {/* <SignupPage/> */}
       <RouterProvider router={router} />
     </div>
   );
