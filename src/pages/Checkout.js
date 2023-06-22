@@ -5,25 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice'
 import { createOrderAsync, selectOrderStatus } from '../features/order/orderSlice'
 import { Navigate } from 'react-router-dom'
-
-const addresses=[
-    {
-        name:'Abc',
-        street:'qwerty',
-        city:'xyz',
-        pincode:202000,
-        state:"klmn",
-        phone:1234567890
-    },
-    {
-        name:'def',
-        street:'qaz',
-        city:'xyyz',
-        pincode:200231,
-        state:"klmnop",
-        phone:1234509890
-    }
-]
+import { selectUser } from '../features/user/userSlice'
 
 function Checkout() {
 
@@ -32,7 +14,7 @@ function Checkout() {
 
     const dispatch =useDispatch()
     const {register,reset,handleSubmit,formState:{errors}} = useForm()
-    const user =useSelector(selectLoggedInUser)
+    const user =useSelector(selectUser)
     const orderPlaced = useSelector(selectOrderStatus)
 
     const handleAddress=(e)=>{
