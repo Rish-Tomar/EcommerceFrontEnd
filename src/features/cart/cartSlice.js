@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { addToCart,fetchItemsByUserID,updateCartItem,deleteCartItem,resetCart} from './CartAPI';
 
 const initialState = {
-  value: 0,
   items: [],
 };
 

@@ -2,6 +2,7 @@
 export function fetchLoggedInUser(userId) {
   return new Promise(async(resolve) =>
    { const response=await fetch('http://localhost:3000/users/'+userId)
+    // const response=await fetch('http://localhost:8005/auth/check')
     const data =await response.json()
     resolve({data})}
   );

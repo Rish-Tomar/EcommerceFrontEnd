@@ -2,7 +2,9 @@
 export function fetchAllProducts() {
   return new Promise(async(resolve) =>
   //  todo
-   { const response=await fetch('http://localhost:3000/products')
+   { 
+    // const response=await fetch('http://localhost:3000/products')
+    const response=await fetch('http://localhost:8005/products')
     const data =await response.json()
     resolve({data})}
   );
@@ -10,7 +12,9 @@ export function fetchAllProducts() {
 
 export function fetchCategories() {
   return new Promise(async(resolve) =>
-   { const response=await fetch('http://localhost:3000/categories')
+   { 
+    // const response=await fetch('http://localhost:3000/categories')
+    const response=await fetch('http://localhost:8005/categories')
     const data =await response.json()
     resolve({data})}
   );
@@ -18,7 +22,7 @@ export function fetchCategories() {
 
 export function fetchProduct(id) {
   return new Promise(async(resolve) =>
-   { const response=await fetch('http://localhost:3000/products/'+id)
+   { const response=await fetch('http://localhost:8005/products/'+id)
     const data =await response.json()
     resolve({data})}
   );
@@ -26,7 +30,9 @@ export function fetchProduct(id) {
 
 export function fetchBrands() {
   return new Promise(async(resolve) =>
-   { const response=await fetch('http://localhost:3000/brands')
+   { 
+    // const response=await fetch('http://localhost:3000/brands')
+    const response=await fetch('http://localhost:8005/brands')
     const data =await response.json()
     resolve({data})}
   );
@@ -41,7 +47,9 @@ export function fetchProductsByFilters(filter) {
   }
   return new Promise(async(resolve) =>
   //  todo
-   { const response=await fetch('http://localhost:3000/products?'+querryString)
+   { 
+    // const response=await fetch('http://localhost:3000/products?'+querryString)
+    const response=await fetch('http://localhost:8005/products?'+querryString)
     const data =await response.json()
     resolve({data})}
   );

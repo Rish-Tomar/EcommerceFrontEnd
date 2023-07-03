@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductAsync, selectedProduct } from '../productListSlice'
 import { fetchProduct } from '../productListAPI'
 import { useParams } from 'react-router-dom'
-import { addToCartAsync } from '../../cart/cartSlice'
+import { addToCartAsync, selectItems } from '../../cart/cartSlice'
 import { selectLoggedInUser } from '../../auth/authSlice'
 const colors= [
       { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
@@ -92,6 +92,7 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(sizes[2])
   const product =useSelector(selectedProduct)
   const user =useSelector(selectLoggedInUser)
+  const items = useSelector(selectItems)
   const dispatch = useDispatch()
 
   //use of react router
@@ -99,10 +100,13 @@ export default function ProductDetails() {
 
   const handleCartAdd=(e)=>{
     e.preventDefault()
-    const newItem={...product,quantity:1,user:user.id}  //done to remove the id supplied from frontend
-    delete newItem['id']                                //let server decide the id
-    dispatch(addToCartAsync(newItem))
-    // dispatch(addToCartAsync({...product,quantity:1,user:user.id}))
+    if(items.findIndex(item=>item.product.id===product.id)<0)
+    { const newItem={product:product.id, quantity:1,user:user.id}
+      dispatch(addToCartAsync(newItem))
+    }
+    else{
+      console.log('Item already in cart')
+    }
   }
   
 

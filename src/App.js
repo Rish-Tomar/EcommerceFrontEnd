@@ -23,6 +23,7 @@ import Logout from './features/auth/component/Logout';
 import ForgetPassword from './features/auth/component/ForgetPassword';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
+
 const router = createBrowserRouter([
   {
     path: "/",

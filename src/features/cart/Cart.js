@@ -1,11 +1,7 @@
 import React, { useState,Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
 import { 
   deleteCartItemAsync,
-  increment,  
-  incrementAsync,
   selectItems,
   updateCartItemAsync,
 } from './cartSlice';
@@ -43,11 +39,11 @@ export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
   const dispatch = useDispatch();
   const products =useSelector(selectItems)
   const user =useSelector(selectLoggedInUser)
-  const totalAmount = products.reduce((amount,item)=>item.price*item.quantity+amount,0)
+  const totalAmount = products.reduce((amount,item)=>item.product.price*item.quantity+amount,0)
   const totalItems  = products.reduce((total,item)=>item.quantity+total,0)
 
   const handleQuantityChange=(e,item)=>{
-    dispatch(updateCartItemAsync({...item,quantity:+e.target.value}))
+    dispatch(updateCartItemAsync({id:item.id,quantity:+e.target.value}))
   }
   const handleDelete=(e,id)=>{
     dispatch(deleteCartItemAsync(id))
@@ -78,8 +74,8 @@ export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
                             <li key={product.id} className="flex py-6">
                               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                 <img
-                                  src={product.thumbnail}
-                                  alt={product.title}
+                                  src={product.product.thumbnail}
+                                  alt={product.product.title}
                                   className="h-full w-full object-cover object-center"
                                 />
                               </div>
@@ -88,11 +84,11 @@ export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
                                 <div>
                                   <div className="flex justify-between text-base font-medium text-gray-900">
                                     <h3>
-                                      <a href={product.href}>{product.title}</a>
+                                      <a href={product.href}>{product.product.title}</a>
                                     </h3>
-                                    <p className="ml-4">{product.price}</p>
+                                    <p className="ml-4">{product.product.price}</p>
                                   </div>
-                                  <p className="mt-1 text-sm text-gray-500">{product.brand}</p>
+                                  <p className="mt-1 text-sm text-gray-500">{product.product.brand}</p>
                                 </div>
                                 <div className="flex flex-1 items-end justify-between text-sm">
                                   <div className="text-gray-500">
