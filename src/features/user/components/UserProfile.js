@@ -10,18 +10,14 @@ import { selectLoggedInUser } from '../../auth/authSlice';
 
 export default function UserProfile() {
   const dispatch = useDispatch();
-  const user =useSelector(selectLoggedInUser)
+  const userInfo =useSelector(selectUser)
   const orders =useSelector(selectUserOrders)  
   const {register,reset,handleSubmit,formState:{errors},setValue} = useForm()
   const [selectedAddressIndex,setSelectedAddressIndex] =useState(-1)
-  
-  useEffect(()=>{
-    dispatch(fetchLoggedInUserOrderAsync(user.id))
-  },[])
 
   const handleAddressEdit=(index)=>{
     setSelectedAddressIndex(index)
-    const address=user.addresses[index]
+    const address=userInfo.addresses[index]
     setValue('name',address.name)
     setValue('email',address.email)
     setValue('street',address.street)
@@ -32,7 +28,7 @@ export default function UserProfile() {
   }
 
   const handleEdit=(addressUpdate,index)=>{
-    const userData = {...user,addresses:[...user.addresses]} // for shallow coppy issue
+    const userData = {...userInfo,addresses:[...userInfo.addresses]} // for shallow coppy issue
     userData.addresses.splice(index,1,addressUpdate)
     dispatch(updateUserAsync(userData))
     console.log('Edit button clicked')
@@ -40,7 +36,7 @@ export default function UserProfile() {
   }
 
   const handleRemove=(e,index)=>{
-    const userData = {...user,addresses:[...user.addresses]} // for shallow coppy issue
+    const userData = {...userInfo,addresses:[...userInfo.addresses]} // for shallow coppy issue
     userData.addresses.splice(index,1)
     dispatch(updateUserAsync(userData))
   }
@@ -49,18 +45,14 @@ export default function UserProfile() {
     <div>   
            <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8 bg-red">      
            <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-           <h2  className="text-2xl font-bold tracking-light text-grey-900">USER EMAIL : {user.email}</h2>
+           <h2  className="text-2xl font-bold tracking-light text-grey-900">USER EMAIL : {userInfo.email}</h2>
            </div>
-                       
-     
-                       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                         
-                         <p className="mt-0.5 text-sm text-gray-500">Address :</p>
-            
-                       </div >
+                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                        <p className="mt-0.5 text-sm text-gray-500">Address :</p>
+                    </div >
                       
-                       {user.addresses.map((address,index) => (
-                          <div>
+                       {userInfo.addresses.map((address,index) => (
+                          <div key={index}>
                                 {selectedAddressIndex===index &&
                                     <form className='bg-white px-5' noValidate 
                                         onSubmit={handleSubmit((data=>{

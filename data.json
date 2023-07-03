@@ -1134,6 +1134,70 @@
       "selectedAddress": null,
       "orderStatus": "pending",
       "id": 6
+    },
+    {
+      "products": [
+        {
+          "product": {
+            "title": "OPPOF19",
+            "description": "OPPO F19 is officially announced on April 2021.",
+            "price": 300,
+            "discountPercentage": 17.91,
+            "rating": 0,
+            "stock": 123,
+            "brand": "OPPO",
+            "category": "smartphones",
+            "thumbnail": "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
+            "images": [
+              "https://i.dummyjson.com/data/products/4/1.jpg",
+              "https://i.dummyjson.com/data/products/4/2.jpg",
+              "https://i.dummyjson.com/data/products/4/3.jpg",
+              "https://i.dummyjson.com/data/products/4/thumbnail.jpg"
+            ],
+            "deleted": false,
+            "id": "649c1f1a83a4ce35760a9aa9"
+          },
+          "quantity": 1,
+          "user": "64a2731ad609c86cd901d6b3",
+          "id": "649d1dbe081fbfb4b8b4beab"
+        },
+        {
+          "product": {
+            "title": "Samsung Universe 9",
+            "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
+            "price": 1249,
+            "discountPercentage": 15.46,
+            "rating": 4.09,
+            "stock": 36,
+            "brand": "Samsung",
+            "category": "smartphones",
+            "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
+            "images": [
+              "https://i.dummyjson.com/data/products/3/1.jpg"
+            ],
+            "deleted": true,
+            "id": "649c22629f9dfa9d63a7b2ea"
+          },
+          "quantity": 1,
+          "user": "64a2731ad609c86cd901d6b3",
+          "id": "64a296341664af4577ede772"
+        }
+      ],
+      "totalAmount": 1549,
+      "totalItems": 2,
+      "user": "64a2731ad609c86cd901d6b3",
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "NoName",
+        "email": "ax@z.com",
+        "phone": "123456",
+        "street": "ullu ka nagla",
+        "city": "ChauptNagri",
+        "state": "Hululu",
+        "pinCode": "123002"
+      },
+      "orderStatus": "pending",
+      "id": 7
     }
   ]
 }

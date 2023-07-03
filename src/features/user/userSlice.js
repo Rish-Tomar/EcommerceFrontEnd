@@ -3,16 +3,14 @@ import { fetchLoggedInUserOrders, updateUser,fetchLoggedInUser} from './userAPI'
 
 const initialState = {
   userInfo: null,
-  userOrders:[],
   status: 'idle',
 };
 
 
 export const fetchLoggedInUserOrderAsync = createAsyncThunk(
   'user/fetchLoggedInUserOrder',
-  async (amount) => {
-    const response = await fetchLoggedInUserOrders(amount);
-    // The value we return becomes the `fulfilled` action payload
+  async (id) => {
+    const response = await fetchLoggedInUserOrders(id);
     return response.data;
   }
 );
@@ -50,14 +48,14 @@ export const userSlice = createSlice({
       })
       .addCase(fetchLoggedInUserOrderAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.userOrders= action.payload;
+        state.userInfo.orders= action.payload;
       })
       .addCase(updateUserAsync.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.userOrders= action.payload;
+        state.userInfo= action.payload;
       })
       .addCase(fetchLoggedInUserAsync.pending, (state) => {
         state.status = 'loading';
@@ -72,7 +70,7 @@ export const userSlice = createSlice({
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectUserOrders = (state) => state.user.userOrders;
+export const selectUserOrders = (state) => state.user.userInfo.orders;
 export const selectUser = (state) => state.user.userInfo;
 
 export default userSlice.reducer;

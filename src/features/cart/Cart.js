@@ -50,7 +50,12 @@ export default function Cart({buttonText,selectedAddress,items,paymentMethod}) {
   }
 
   const handleOrder=(e)=>{
-    const order={products,totalAmount,totalItems,user,paymentMethod,selectedAddress,
+    const order={items:products,
+                 totalAmount,
+                 totalItems,
+                 user:user.id,
+                 paymentMethod,
+                 selectedAddress,
                  orderStatus:'pending' //can be changed to ordered  delivered etc
                 }
     dispatch(createOrderAsync(order))

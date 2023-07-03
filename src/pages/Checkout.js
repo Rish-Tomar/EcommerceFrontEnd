@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import Cart from '../features/cart/Cart'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice'
+import { selectLoggedInUser } from '../features/auth/authSlice'
 import { createOrderAsync, selectOrderStatus } from '../features/order/orderSlice'
 import { Navigate } from 'react-router-dom'
-import { selectUser } from '../features/user/userSlice'
+import { selectUser, updateUserAsync} from '../features/user/userSlice'
 
 function Checkout() {
 

@@ -40,13 +40,6 @@ export const SignOutUserAsync = createAsyncThunk(
   }
 );
 
-export const updateUserAsync = createAsyncThunk(
-  'user/updateUser',
-  async (update) => {
-    const response = await updateUser(update);
-    return response.data;
-  }
-);
 
 export const authSlice = createSlice({
   name: 'user',
@@ -78,13 +71,6 @@ export const authSlice = createSlice({
         // state.error = action.error;
         state.error = action.payload;
       })
-      .addCase(updateUserAsync.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(updateUserAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.loggedInUser = action.payload;
-      })
       .addCase(SignOutUserAsync.pending, (state) => {
         state.status = 'loading';
       })
@@ -97,10 +83,6 @@ export const authSlice = createSlice({
 
 export const { increment } = authSlice.actions;
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-// export const selectCount = (state) => state.value;
 export const selectLoggedInUser =(state)=>state.auth.loggedInUser
 
 export default authSlice.reducer;
