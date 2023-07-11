@@ -50,7 +50,7 @@ export default function NavBar({children}) {
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map((item) => (
+                        {/* {navigation.map((item) => (
                           <a
                             key={item.name}
                             href={item.href}
@@ -64,7 +64,7 @@ export default function NavBar({children}) {
                           >
                             {item.name}
                           </a>
-                        ))}
+                        ))} */}
                       </div>
                     </div>
                   </div>

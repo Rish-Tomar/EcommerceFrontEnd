@@ -2,16 +2,12 @@ import React, { useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux';
 import { 
- fetchLoggedInUserOrderAsync, selectUser, updateUserAsync
+ selectUser, updateUserAsync
 } from '../userSlice';
-import { selectUserOrders } from '../userSlice';
-import { selectLoggedInUser } from '../../auth/authSlice';
-
 
 export default function UserProfile() {
   const dispatch = useDispatch();
   const userInfo =useSelector(selectUser)
-  const orders =useSelector(selectUserOrders)  
   const {register,reset,handleSubmit,formState:{errors},setValue} = useForm()
   const [selectedAddressIndex,setSelectedAddressIndex] =useState(-1)
 

@@ -80,10 +80,12 @@ function App() {
 
   const dispatch =useDispatch();
   const user     =useSelector(selectLoggedInUser);
+
   useEffect(()=>{
     if(user){
-      dispatch(fetchItemsByUserIDAsync(user.id))
-      dispatch(fetchLoggedInUserAsync(user.id))
+      console.log("user is in app",user)
+      dispatch(fetchItemsByUserIDAsync())
+      dispatch(fetchLoggedInUserAsync())
     }   
   },[dispatch,user])
   return (

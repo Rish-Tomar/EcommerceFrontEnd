@@ -8,14 +8,13 @@ import { resetOrder } from '../features/order/orderSlice'
 function OrderSuccessPage() {
     const params=useParams()
     const dispatch =useDispatch()
-    const user =useSelector(selectLoggedInUser)
-
+    
     useEffect(()=>{
       //reset cart
-      dispatch(resetCartAsync(user.id))
+      dispatch(resetCartAsync())
       //reset current order
       dispatch(resetOrder())
-    },[dispatch,user])
+    },[dispatch])
 
   return (
     <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
