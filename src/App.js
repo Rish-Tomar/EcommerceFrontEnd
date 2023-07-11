@@ -13,7 +13,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage';
 import Protected from './features/auth/component/Protected';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItemsByUserIDAsync } from './features/cart/cartSlice';
-import { selectLoggedInUser } from './features/auth/authSlice';
+import { checkIfCurrentlyLoggedInAsync, selectLoggedInUser, selectUserChecked } from './features/auth/authSlice';
 import NotFound404 from './pages/NotFound404';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import UserOrderPage from './pages/UserOrderPage';
@@ -80,6 +80,11 @@ function App() {
 
   const dispatch =useDispatch();
   const user     =useSelector(selectLoggedInUser);
+  const userChecked =useSelector(selectUserChecked)
+
+  useEffect(()=>{
+    dispatch(checkIfCurrentlyLoggedInAsync())
+  },[])
 
   useEffect(()=>{
     if(user){
@@ -90,7 +95,7 @@ function App() {
   },[dispatch,user])
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      {userChecked&&<RouterProvider router={router} />}
     </div>
   );
 }

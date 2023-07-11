@@ -34,7 +34,6 @@ function Checkout() {
             <div className='lg:col-span-3'>
             <form className='bg-white px-5' noValidate onSubmit={handleSubmit((data=>{
                 dispatch(updateUserAsync({...user,addresses:[...user.addresses,data]}))
-                    // checkUserAsync({email:data.email,password:data.password}))
                 reset()
                 console.log(data)
                 }))}
